@@ -21,7 +21,18 @@ class StringAddCalculatorTest {
     @MethodSource("validInputs")
     void splitAndSum_validInputs(String input, int expected) {
         // when
-        int result = StringAddCalculator.splitAndSum(input);
+        int result = stringAddCalculator.splitAndSum(input);
+        // then
+        assertThat(result).isEqualTo(expected);
+    }
+
+    @DisplayName("커스텀 구분자를 지정할 수 있다")
+    @ParameterizedTest
+    @MethodSource("validInputsWithCustomDel")
+    void splitAndSum_validInputsWithCustomDel(String input, int expected) {
+        // when
+        int result = stringAddCalculator.splitAndSum(input);
+
         // then
         assertThat(result).isEqualTo(expected);
     }
@@ -35,6 +46,14 @@ class StringAddCalculatorTest {
                 Arguments.of(null, 0)
         );
     }
-    
+
+    static Stream<Arguments> validInputsWithCustomDel() {
+        return Stream.of(
+                Arguments.of("//;\n1;2;3", 6),
+                Arguments.of("///\n1/2", 3),
+                Arguments.of("//.\n", 0)
+        );
+    }
+
 
 }
