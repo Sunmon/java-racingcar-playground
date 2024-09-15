@@ -9,6 +9,7 @@ import org.junit.jupiter.params.provider.ValueSource;
 
 import java.util.stream.Stream;
 
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -37,6 +38,18 @@ class StringAddCalculatorTest {
         assertThat(result).isEqualTo(expected);
     }
 
+    @DisplayName("문자열 계산기에 숫자 이외의 값 또는 음수를 전달하는 경우 RuntimeException 예외를 throw한다.")
+    @ParameterizedTest
+    @MethodSource("invalidInputs")
+    void splitAndSum_invalidInputs(String input, Class<? extends Throwable> expectedException) {
+        // when
+        assertThatThrownBy(() -> {
+            int result = stringAddCalculator.splitAndSum(input);
+            // then
+        }).isInstanceOf(expectedException);
+    }
+
+
     static Stream<Arguments> validInputs() {
         return Stream.of(
                 Arguments.of("1:2,3", 6),
@@ -55,5 +68,13 @@ class StringAddCalculatorTest {
         );
     }
 
+    static Stream<Arguments> invalidInputs() {
+        return Stream.of(
+                Arguments.of("//;\n1;2-3", RuntimeException.class),
+                Arguments.of("//;\n1;-2;3", RuntimeException.class),
+                Arguments.of("///\n-2", RuntimeException.class),
+                Arguments.of("//.\nabc", RuntimeException.class)
+        );
+    }
 
 }
