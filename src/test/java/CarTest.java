@@ -1,9 +1,12 @@
+import com.sun.org.apache.xpath.internal.Arg;
 import org.junit.jupiter.api.DisplayName;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.CsvSource;
 import org.junit.jupiter.params.provider.MethodSource;
+import org.junit.jupiter.params.provider.ValueSource;
 
 import java.util.stream.Stream;
 
@@ -39,4 +42,25 @@ public class CarTest {
                 Arguments.of("booroong", null)
         );
     }
+
+    @DisplayName("전진을 판별하는 값이 4 이상이면 전진한다.")
+    @ParameterizedTest
+    @ValueSource(ints = {1, 2, 3, 4, 5, 6, 7})
+    public void carRunTest(int value) throws Exception {
+        // given
+        Car car = new Car("name");
+        int prevPosition = car.getPosition();
+
+        //when
+        car.go(value);
+
+        //then
+        if (value >= Car.THRESHOLD) {
+            assertThat(car.getPosition()).isEqualTo(prevPosition + 1);
+        } else {
+            assertThat(car.getPosition()).isEqualTo(prevPosition);
+        }
+    }
+
+
 }
