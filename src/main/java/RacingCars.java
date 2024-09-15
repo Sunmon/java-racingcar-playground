@@ -18,7 +18,20 @@ public class RacingCars {
         return Collections.unmodifiableList(cars);
     }
 
+    public int getCarsLength() {
+        return this.cars.size();
+    }
+
     public Car getCar(int num) {
         return this.cars.get(num);
+    }
+
+    public void race() {
+        this.cars.forEach(Car::go);
+    }
+
+    public List<Car> getWinners() {
+        int maxPosition = this.cars.stream().mapToInt(Car::getPosition).max().getAsInt();
+        return this.cars.stream().filter(car -> car.getPosition() == maxPosition).toList();
     }
 }

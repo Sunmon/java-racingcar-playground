@@ -14,6 +14,11 @@ public class Car {
         this.name = name;
     }
 
+    protected Car(String name, int position) {
+        this(name);
+        this.position = position;
+    }
+
     public String getName() {
         return name;
     }
@@ -44,4 +49,5 @@ public class Car {
     public int getPosition() {
         return position;
     }
+
 }
