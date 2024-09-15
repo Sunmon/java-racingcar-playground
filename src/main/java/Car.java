@@ -5,10 +5,12 @@ public class Car {
     private int position = 0;
     public static final int THRESHOLD = 4;
 
-    public static String LENGTH_ERROR = "이름은 5자 이내로 설정해주십시오.";
+    public static String NAME_LENGTH_ERROR_MESSAGE = "이름은 5자 이내로 설정해주십시오.";
+    public static String EMPTY_NAME_ERROR_MESSAGE = "이름을 입력하지 않았습니다.";
 
-    public Car(String name) throws Exception {
-        if (!isValidName(name)) throw new Exception(LENGTH_ERROR);
+    public Car(String name) throws IllegalArgumentException {
+        if (isEmptyName(name)) throw new IllegalArgumentException(EMPTY_NAME_ERROR_MESSAGE);
+        if (isLengthExceeded(name)) throw new IllegalArgumentException(NAME_LENGTH_ERROR_MESSAGE);
         this.name = name;
     }
 
@@ -29,9 +31,13 @@ public class Car {
         return getPosition();
     }
 
-    private boolean isValidName(String name) {
+    private boolean isLengthExceeded(String name) {
         int MAX_NAME_LENGTH = 5;
-        return name.length() <= MAX_NAME_LENGTH;
+        return name.length() > MAX_NAME_LENGTH;
+    }
+
+    private boolean isEmptyName(String name) {
+        return name.isEmpty();
     }
 
 

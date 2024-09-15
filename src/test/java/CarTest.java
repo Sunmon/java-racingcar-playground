@@ -23,7 +23,7 @@ public class CarTest {
             // when
             assertThatThrownBy(() -> new Car(name))
                     .isInstanceOf(Exception.class)
-                    .hasMessage(Car.LENGTH_ERROR);
+                    .hasMessage(Car.NAME_LENGTH_ERROR_MESSAGE);
 //            assertThatExceptionOfType(expectedException)
 //                    .isThrownBy(() -> new Car(name))
 //                    .withMessage("이름은 5자 이내로 설정해주십시오.");
